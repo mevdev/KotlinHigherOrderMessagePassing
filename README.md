@@ -11,86 +11,82 @@ This example is basically showing how to pass a function as a parameter to an ob
 ** Robert Linnemann
 **/
 
-fun main(args: Array) {
-//make an object that makes an internal object.
-val m = Master()
-//call a function on the internal object that then calls
-//through to the lamda function that was passed into it.
-m.apprentice?.sendMessage()
+fun main(args: Array<String>) {
+    //make an object that makes an internal object.
+    val m = Master()
+    //call a function on the internal object that then calls
+    //through to the lamda function that was passed into it.
+    m.apprentice?.sendMessage()
 }
 
 class Master {
-var apprentice: Apprentice?
-init {
-//pass in the function print to the Apprentice object.
-apprentice = Apprentice(::print)
-}
+      var apprentice: Apprentice?
+    init {
+        //pass in the function print to the Apprentice object.
+	       apprentice = Apprentice(::print)        
+    }
 
-fun print(message: String) {
-println(message)
-}
+    fun print(message: String) {
+        println(message)
+    }
 }
 
 class Apprentice(send: (String) -> Unit) {
-val send = send
-fun sendMessage() {
-send("Print This for me.")
-}
+    val send = send
+    fun sendMessage() {
+        send("Print This for me.")
+    }
 }
 ```
 I’ve also implemented an interface alongside which compares these features a bit better.
-```kotlin
-/**
-** Higher-Order Function as parameter to a class.
-** Robert Linnemann
-**/
 
-fun main(args: Array) {
-//make an object that makes an internal object.
-val m = Master()
-//call a function on the internal object that then calls
-//through to the lamda function that was passed into it.
-m.apprentice?.sendMessageThroughLambda()
-//A similar was to pass a message to a parent object would be to
-//use an interface
-m.apprentice?.sendMessageThroughInterface()
+```kotlin
+fun main(args: Array<String>) {
+    //make an object that makes an internal object.
+    val m = Master()
+    //call a function on the internal object that then calls
+    //through to the lamda function that was passed into it.
+    m.apprentice?.sendMessageThroughLambda()
+    //A similar was to pass a message to a parent object would be to
+    //use an interface
+    m.apprentice?.sendMessageThroughInterface()
 }
 
 interface PassMessageListener {
-fun message(message: String)
+    fun message(message: String)
 }
 
 class Master: PassMessageListener {
-var apprentice: Apprentice?
-init {
-//pass in the function print to the Apprentice object.
-apprentice = Apprentice(::print)
-//setup the interface listener
-apprentice?.passMessageListener = this
-}
+      var apprentice: Apprentice?
+    init {
+        //pass in the function print to the Apprentice object.
+	       apprentice = Apprentice(::print)    
+        //setup the interface listener
+        apprentice?.passMessageListener = this
+    }
 
-fun print(message: String) {
-println(message)
-}
-//interface method
-override fun message(message: String) {
-print(message)
-}
+    fun print(message: String) {
+        println(message)
+    }
+    //interface method
+    override fun message(message: String) {
+        print(message)
+    }
 }
 
 //This gets a function passed in as the variable 'send'.
 class Apprentice(send: (String) -> Unit) {
-val send = send
-var passMessageListener: PassMessageListener? = null
-
-fun sendMessageThroughLambda() {
-//sends directly to the function on a whole 'notha level
-send("Print this for me.")
-}
-fun sendMessageThroughInterface() {
-//traditional interface way to pass a message
-passMessageListener?.message("Print this for you")
-}
+    val send = send
+    var passMessageListener: PassMessageListener? = null
+    
+    fun sendMessageThroughLambda() { 
+        //sends directly to the function on a whole 'notha level
+        send("Print this for me.")
+    }
+    fun sendMessageThroughInterface() {
+        //traditional interface way to pass a message
+        passMessageListener?.message("Print this for you")
+    }
 }
 ```
 To run this you can put it into the great site https://try.kotlinlang.org/
