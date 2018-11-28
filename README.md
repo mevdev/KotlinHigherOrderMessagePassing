@@ -5,7 +5,7 @@ http://ios.robertlinnemann.com/kotlin-higher-order-function-lambda/
 
 
 This example is basically showing how to pass a function as a parameter to an object that can then be called from within. I use a String but it could be any parameters or none. Comparing to an interface it is a bit cleaner and a bit less code. Interfaces are great when you need multiple functions but using a Lambda works great for just a function and is just as clear.
-```
+```kotlin
 /**
 ** Higher-Order Function as parameter to a class.
 ** Robert Linnemann
@@ -39,7 +39,7 @@ send("Print This for me.")
 }
 ```
 I’ve also implemented an interface alongside which compares these features a bit better.
-```
+```kotlin
 /**
 ** Higher-Order Function as parameter to a class.
 ** Robert Linnemann
